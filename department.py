@@ -110,7 +110,7 @@ class Department:
                 st.write('The Department ID is: ', self.id)
                 conn.close()
             else:
-                st.error('Please fill the fields')
+                st.errror('Please fill the fields')
 
     # method to update an existing department record in the database
     def update_department(self):
