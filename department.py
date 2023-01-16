@@ -88,26 +88,29 @@ class Department:
 
         # executing SQLite statements to save the new department record to the database
         if save:
-            conn, c = db.connection()
-            with conn:
-                c.execute(
-                    """
-                    INSERT INTO department_record
-                    (
-                        id, name, description
-                    )
-                    VALUES (
-                        :id, :name, :desc
-                    );
-                    """,
-                    {
-                        'id': self.id, 'name': self.name, 'desc': self.description,
+            if self.name!='': 
+                conn, c = db.connection()
+                with conn:
+                    c.execute(
+                        """
+                        INSERT INTO department_record
+                        (
+                            id, name, description
+                        )
+                        VALUES (
+                            :id, :name, :desc
+                        );
+                        """,
+                        {
+                            'id': self.id, 'name': self.name, 'desc': self.description,
                         
-                    }
-                )
-            st.success('Department details saved successfully.')
-            st.write('The Department ID is: ', self.id)
-            conn.close()
+                        }
+                    )
+                st.success('Department details saved successfully.')
+                st.write('The Department ID is: ', self.id)
+                conn.close()
+            else:
+                st.error('Please fill the fields')
 
     # method to update an existing department record in the database
     def update_department(self):
@@ -139,19 +142,22 @@ class Department:
 
             # executing SQLite statements to update this department's record in the database
             if update:
-                with conn:
-                    c.execute(
-                        """
-                        UPDATE department_record
-                        SET description = :desc
-                        WHERE id = :id;
-                        """,
-                        {
-                            'id': id, 'desc': self.description,
-                        }
-                    )
-                st.success('Department details updated successfully.')
-                conn.close()
+                if self.name!='':
+                    with conn:
+                        c.execute(
+                            """
+                            UPDATE department_record
+                            SET description = :desc
+                            WHERE id = :id;
+                            """,
+                            {
+                                'id': id, 'desc': self.description,
+                            }
+                        )
+                    st.success('Department details updated successfully.')
+                    conn.close()
+                else:
+                    st.error('Please enter the fields')
 
     # method to delete an existing department record from the database
     def delete_department(self):
